@@ -21,7 +21,15 @@ class TelegramHandler extends AbstractProcessingHandler
     }
 
     protected function write(array $record) {
-        $message = $record['formatted'];
+        $message  = '*'.$record['level_name'].'* on Motorsports Cloud'.PHP_EOL;
+        $message .= 'Host: `'.gethostname().'`'.PHP_EOL;
+        $message .= 'Channel: '.$record['channel'].PHP_EOL;
+        $message .= 'Message: '.$record['message'].PHP_EOL;
+        $message .= 'Remote Address: '.(isset($_SERVER['REMOTE_ADDR']) ? ip2long($_SERVER['REMOTE_ADDR']) : 'N/A').PHP_EOL;
+        $message .= 'User Agent :'.(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'N/A').PHP_EOL;
+        $message .= 'User: '.(Auth::id() > 0 ? Auth::id() : 'None').PHP_EOL;
+        $message .= 'Context: '.PHP_EOL;
+        $message .= '```json'.PHP_EOL.json_encode($record['context'],JSON_PRETTY_PRINT).PHP_EOL.'```';
         $messageArray = [
             'chat_id' => $this->chatId,
             'text' => $message,
@@ -29,19 +37,6 @@ class TelegramHandler extends AbstractProcessingHandler
             'disable_web_page_preview' => true,
         ];
         $this->bot->sendMessage($messageArray);
-        /*
-        $data = [
-            'instance' => gethostname(),
-            'message' => $record['message'],
-            'channel' => $record['channel'],
-            'level' => $record['level'],
-            'level_name' => $record['level_name'],
-            'context' => json_encode($record['context']),
-            'remote_addr' => isset($_SERVER['REMOTE_ADDR']) ? ip2long($_SERVER['REMOTE_ADDR']) : null,
-            'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
-            'created_by' => Auth::id() > 0 ? Auth::id() : null,
-            'created_at' => $record['datetime']->format('Y-m-d H:i:s')
-        ];
-        DB::connection($this->connection)->table($this->table)->insert($data);*/
+
     }
 }
