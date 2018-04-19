@@ -1,6 +1,6 @@
 {
     "name": "gordonzero/monolog-telegram",
-    "description": "Laravel 5.6 Monolog custom database channel",
+    "description": "Laravel 5.6 Monolog custom telegram channel",
     "keywords": ["laravel", "laravel56", "log", "monolog", "telegram","bot"],
     "homepage": "https://github.com/gordonzero/monolog-telegram",
     "type": "library",
