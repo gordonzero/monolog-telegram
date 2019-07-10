@@ -21,7 +21,7 @@ class TelegramHandler extends AbstractProcessingHandler
     }
 
     protected function write(array $record) {
-        $message  = '*'.$record['level_name'].'* on Motorsports Cloud'.PHP_EOL;
+        $message  = '*'.$record['level_name'].'* on '.config('app.name').' ('.config('app.env').')'.PHP_EOL;
         $message .= 'Host: `'.gethostname().'`'.PHP_EOL;
         $message .= 'Channel: '.$record['channel'].PHP_EOL;
         $message .= 'Message: '.$record['message'].PHP_EOL;
